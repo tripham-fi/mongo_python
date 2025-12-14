@@ -1,12 +1,14 @@
+import os
+
 from bson import ObjectId
 from pymongo import MongoClient
 
-
-client = MongoClient("mongodb://localhost:27017/")
-db = client["library"]
+MONGODB_URI = os.getenv("MONGODB_URI") or "mongodb://localhost:27017"
+DB_NAME = os.getenv("MONGODB_DB") or "library"
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
 
 print("Collections:", db.list_collection_names())
-
 print("Books in database:\n")
 
 for book in db.books.find().limit(5):
